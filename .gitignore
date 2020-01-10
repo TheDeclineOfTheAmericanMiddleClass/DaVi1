@@ -1,0 +1,10 @@
+# Project exclude paths
+/_datfiles/
+/_Figures/
+/_RScripts/
+/GenImagesAdu/
+/Images/
+GenImagesAdu.zip
+davi1_komplett.tar.gz
+.RData
+.Rhistory
