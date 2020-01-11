@@ -1,3 +1,4 @@
+import scipy.stats
 from __PythonScripts.read_data import *
 from __PythonScripts.circularTransformations import *
 
@@ -17,17 +18,18 @@ avgRTxObli = keyRT[obliqueTrials].mean()  # average response time in oblique dir
 # non_OC[obliqueTrials] = 0
 # nonOC_Err = abs_err(est_mu[non_OC], res_mu[non_OC]).mean()
 
-import scipy.stats
-
+# calculating error -- total, by presentation time, and SNR
 ERxPT = np.ones(len(durVal))  # MAE, by visualization durations
-STDxPT = np.ones(len(durVal))  # SEM, by visualization durations
+SEMxPT = np.ones(len(durVal))  # SEM, by visualization durations
 for i, x in enumerate(durVal):
     ERxPT[i] = abs_err(est_mu[durInd[x]], res_mu[durInd[x]]).mean()  # durInd is a dictionary
-    # STDxPT[i] = np.std(abs_err(est_mu[durInd[x]], res_mu[durInd[x]]))
-    STDxPT[i] = scipy.stats.sem(abs_err(est_mu[durInd[x]], res_mu[durInd[x]]))
+    SEMxPT[i] = scipy.stats.sem(abs_err(est_mu[durInd[x]], res_mu[durInd[x]]))
+
+allER = abs_err(est_mu, res_mu)  # single trial errors x SNR
+loER = abs_err(est_mu[loSNR], res_mu[loSNR])
+hiER = abs_err(est_mu[hiSNR], res_mu[hiSNR])
 
 # Mean and standard deviation of RT, by visualization duration
-# TODO: consider if std makes sense, given PT is gamma-distributed
 avgRTxPT = np.ones([len(durInd)])
 stdRTxPT = np.ones([len(durInd)])
 

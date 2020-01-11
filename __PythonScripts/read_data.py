@@ -123,7 +123,11 @@ for i, x in enumerate(propVal):
     prop_RT.append(keyRT[propInd[x]])
     prop_RT_mean.append(np.mean(prop_RT[i]))
 
-## Specifying the reaction time for each combination of kappa and propmix
+allInd = np.arange(len(est_mu))
+hiSNR = propInd[0.0][0].astype(int)
+loSNR = propInd[0.5][0].astype(int)
+
+# Specifying the reaction time for each combination of kappa and propmix
 # kp_RT = {}  # dictionary of dictionaries, one for each propmix value
 kp_RT = []  # alternate implementation
 kp_RT_mean = []
