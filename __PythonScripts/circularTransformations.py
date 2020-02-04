@@ -61,6 +61,11 @@ def ang_err(a, b):
     return 100 * np.arctan2(np.sin(a - b), np.cos(a - b)) / np.pi
 
 
+def signed_err(a, b):
+    """ Calculates angular distance between two arrays holding radian coordinates.
+    Returns distance in signed degrees"""
+    return np.arctan2(np.sin(a - b), np.cos(a - b)) * 360 / (2 * np.pi)
+
 def abs_err(a, b):
     """ Calculates angular distance between two arrays holding radian coordinates.
     Returns distance in absolute degrees"""

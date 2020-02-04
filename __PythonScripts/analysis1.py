@@ -9,11 +9,11 @@ from __PythonScripts.fit_var import *
 # Printing basic descriptive statistics
 summary_stats()
 
-# # Validating data/plotting what's informative
-# InformativePlots()
+# Validating data/plotting what's informative
+InformativePlots()
 
 # Fig 3. Binned Error vs.RT
-fig = plt.figure(figsize=(6, 4))
+fig = plt.figure(figsize=(7, 5))
 fig.subplots_adjust(bottom=.2, top=.9)
 plt.rcParams.update({'font.size': 8})
 ax8 = fig.add_subplot(111)
@@ -38,7 +38,7 @@ best_cost, best_residuals = NLSfit(datax=[vizDur, RT_x],
                                    ln=['linear'],
                                    lf=[four_lossfunc, gd_lossfunc],
                                    groundtruth=[ERxPT, keyRT],
-                                   xlabels=xlabels, ylabels=ylabels,
+                                   xlabels=xlabels[1:], ylabels=ylabels[1:],
                                    errorbar=True,
                                    caption=caption5,
                                    SNR=[loSNR, hiSNR],

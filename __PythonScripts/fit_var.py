@@ -30,16 +30,15 @@ x0 = [x0_exp, x0_four, x0_gd]
 caption3 = f'Figure 3. 851 unique participant-initiated reaction times, as function of \nmean absolute error, ' \
            f'averaged into 23 bins, each of size 37.\nEach point is plotted at bin\'s mean. Range: 408 - 11692 ms.'
 
-caption4 = f'Figure 4. Testing different loss functions and fit functions for non-linear least squares model.' \
+caption4 = f'Figure 3. Testing different loss functions and fit functions for non-linear least squares model.' \
            f'\nParameters were estimated for (a) an exponential function, (b) a four-parameter logistic,' \
            f'and \n(c) a gamma function. Experiment results in blue.'
 
-caption5 = f'Figure 5. Experiment results in blue, stratified by signal-to-noise ratio.\nNon-linear least squares ' \
-           f'model of the absolute degree of ' \
-           f'participant error in estimating the mean, fit with \n(a) a four-parameter logistic function.' \
-           f' (b) Model of the distribution ' \
-           f'of all participant\'s reaction times, fit with a gamma distribution.' \
-           f'\nEach model was best fit with a linear loss function. Error bars reflect standard error of the mean.'
+caption5 = f'Figure 4. Experiment results in blue, stratified by signal-to-noise ratio. Non-linear least squares ' \
+           f'model of the absolute degree of \nparticipant error in estimating the mean, fit with (a) a four-parameter' \
+           f' logistic function. (b) Model of the distribution of all participant\'s reaction times, fit with a gamma' \
+           f'distribution. \nEach model was best fit with a linear loss function. Error bars reflect standard error' \
+           f' of the mean.'
 
 # # setting bounds to avoid overflow runtime error
 # bounds = [[(ERxPT.min(), 1e-4, -1e3), (ERxPT.max(), 1e1, 1e3)],  # bounds for exponential

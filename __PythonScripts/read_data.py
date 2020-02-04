@@ -85,6 +85,13 @@ obli_direc = [np.pi / 4, 3 * np.pi / 4, 5 * np.pi / 4, 7 * np.pi / 4]  # oblique
 
 cardinalTrials = circ_window(card_direc, est_mu, pad=card_pad)  # trials with mu in cardinal directions (padded)
 obliqueTrials = circ_window(obli_direc, est_mu, pad=obli_pad)  # trials with mu in oblique directions (padded)
+otherTrials = np.array(list(set(np.arange(len(est_mu))) - set(cardinalTrials) - set(obliqueTrials)))
+
+# nominal array of directions
+directions = np.arange(len(est_mu))
+directions[otherTrials] = 0  # 'other'
+directions[cardinalTrials] = 1  # 'cardinal'
+directions[obliqueTrials] = 2  # 'oblique'
 
 # Calculating differences between response, estimated, and initial probe mu
 _, res_mu = cart2pol(answer_x, answer_y)  # participants' responses for mu, in radians
@@ -101,9 +108,11 @@ avgRTxObli = keyRT[obliqueTrials].mean()  # mean RT for oblique directions
 durInd = {}  # the dictionary
 durVal = np.unique(vizDur)
 dur_RT = []
+RTxPT = np.zeros_like(durVal)
 for i, x in enumerate(durVal):
     durInd[x] = np.where(vizDur == x)  # adding entries for each duration to the dictionary
     dur_RT.append(keyRT[durInd[x]])  # adding list of reaction times to a list
+    RTxPT[i] = np.mean(dur_RT[i])
 
 kapInd = {}
 kapVal = np.unique(est_kappa)
@@ -124,8 +133,9 @@ for i, x in enumerate(propVal):
     prop_RT_mean.append(np.mean(prop_RT[i]))
 
 allInd = np.arange(len(est_mu))
-hiSNR = propInd[0.0][0].astype(int)
-loSNR = propInd[0.5][0].astype(int)
+hiSNR = propInd[0.5][0].astype(int)
+loSNR = propInd[0.0][0].astype(int)
+bothSNR = [loSNR, hiSNR]
 
 # Specifying the reaction time for each combination of kappa and propmix
 # kp_RT = {}  # dictionary of dictionaries, one for each propmix value
@@ -141,3 +151,26 @@ for i, x in enumerate(propVal):  # for each propmix value
                 kap_by_propVal.setdefault(y, []).append(z)  # create list for each kappa
     # kp_RT[x] = kap_by_propVal  # appending dictionary of each propmix's kappas to a dictionary
     kp_RT.append(kap_by_propVal)  # alternate implementation
+
+# Reading in demogrpahic data
+import pandas as pd
+
+demos = pd.read_excel('RolfsLab_ParticipantsInfo.xlsx')
+ex_code = demos.keys()[2]
+age = demos.keys()[3]
+gender = demos.keys()[4]
+dom_eye = demos.keys()[5]
+dom_hand = demos.keys()[6]
+demos = demos.loc[(demos[ex_code] == 'DAVI1')]  # filtering for Davi1 participants
+
+left_h = (demos.loc[:, dom_hand] == np.unique(demos.loc[:, dom_hand])[0]).sum()
+left_e = (demos.loc[:, dom_eye] == np.unique(demos.loc[:, dom_eye])[0]).sum()
+wom = (demos.loc[:, gender] == np.unique(demos.loc[:, gender])[0]).sum()
+min_age = demos.loc[:, age].min()
+max_age = demos.loc[:, age].max()
+
+print(f'Out of {len(demos)} participants, there were... \n'
+      f'Left-handed:{left_h}, Right-handed = {len(demos) - left_h}\n'
+      f'Left eye dominant:{left_e}, Right eye dominant: {len(demos) - left_e}\n'
+      f'Min age: {min_age}, Max age: {max_age}\n'
+      f'Women: {wom}, Men: {len(demos) - wom}')

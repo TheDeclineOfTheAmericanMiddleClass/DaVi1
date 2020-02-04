@@ -25,9 +25,13 @@ for i, x in enumerate(durVal):
     ERxPT[i] = abs_err(est_mu[durInd[x]], res_mu[durInd[x]]).mean()  # durInd is a dictionary
     SEMxPT[i] = scipy.stats.sem(abs_err(est_mu[durInd[x]], res_mu[durInd[x]]))
 
-allER = abs_err(est_mu, res_mu)  # single trial errors x SNR
-loER = abs_err(est_mu[loSNR], res_mu[loSNR])
+allsignedER = signed_err(est_mu, res_mu)  # single trial signed error
+allER = abs_err(est_mu, res_mu)  # single trial absolute error
+loER = abs_err(est_mu[loSNR], res_mu[loSNR])  # single trial errors x SNR
 hiER = abs_err(est_mu[hiSNR], res_mu[hiSNR])
+
+# single trial errors x SNR
+signed_trialERxPT = [list(allsignedER[durInd[x]]) for i, x in enumerate(durVal)]
 
 # Mean and standard deviation of RT, by visualization duration
 avgRTxPT = np.ones([len(durInd)])
@@ -66,8 +70,8 @@ for i, muval in enumerate(np.unique(est_mu)):
     muRT_mean.append(np.mean(keyRT[sing_mu]))
     avgMuErr_ResxEst.append(np.mean(ERxTrials[sing_mu]))  # TODO: look into why there is decreased accuracy ~pi/2
 
+signed_trialRTxPT = [list(keyRT[durInd[x]]) for i, x in enumerate(durVal)]
 uniqRT = np.unique(keyRT)
-
 avgRTxEr = np.empty_like(uniqRT)
 for i, x in enumerate(uniqRT):
     avgRTxEr[i] = np.mean(ERxTrials[np.where(keyRT == uniqRT[i])])  # TODO: add list of error for every trial
